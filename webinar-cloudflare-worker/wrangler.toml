@@ -8,3 +8,4 @@ schedule = "*/40 * * * *"  # sync_webinars every 40 minutes
 
 [[triggers.crons]]
 schedule = "*/2 * * * *"   # retry_failed_webhooks every 2 minutes
+

@@ -8,13 +8,23 @@ class WebinarRegistration(BaseModel):
     firstName: Optional[str] = None
     surname: Optional[str] = None
     name: Optional[str] = None
-    # Add all fields from your /register (phone, companyName, countryCode, utm_*, submittedFromUrl, etc.)
-    submittedAt: Optional[datetime] = None
+    companyName: Optional[str] = None
+    phone: Optional[str] = None
+    countryCode: Optional[str] = None
+    utm_source: Optional[str] = None
+    utm_medium: Optional[str] = None
+    utm_campaign: Optional[str] = None
+    submittedFromUrl: Optional[str] = None
     broadcastId: Optional[str] = None
-    # etc.
+    webinarId: Optional[str] = None
+    id: Optional[str] = None  # Channel ID
+    submittedAt: Optional[datetime] = None
+    terms: Optional[bool] = False
 
 class WebinarDetails(BaseModel):
-    pass  # Fill as needed
+    pass  # Expand if needed
 
 class LeadSubmission(BaseModel):
-    pass  # Fill as needed
+    submittedAt: Optional[datetime] = None
+    # Add fields as needed
+

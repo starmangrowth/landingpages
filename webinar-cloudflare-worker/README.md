@@ -1,9 +1,10 @@
-# Webinar Backend - Cloudflare Worker
+# Webinar Backend - Cloudflare Python Worker
 
-Deployed as Python Worker on Cloudflare.
+Multi-tenant webinar registration backend.
 
-- Secrets: Add MONGODB_URL via wrangler secret put
-- Test: npx wrangler dev
-- Deploy: npx wrangler deploy
+Deploy:
+  npx wrangler secret put MONGODB_URL "your-string"
+  npx wrangler deploy
 
-Your static landing pages can be served via Cloudflare Pages.
+Static frontend: Add HTML to /static and deploy via Cloudflare Pages.
+
