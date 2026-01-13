@@ -1,0 +1,10 @@
+name = "webinar-backend"
+main = "worker.py"
+compatibility_date = "2026-01-13"
+compatibility_flags = ["python_workers"]
+
+[[triggers.crons]]
+schedule = "*/40 * * * *"  # sync_webinars every 40 minutes
+
+[[triggers.crons]]
+schedule = "*/2 * * * *"   # retry_failed_webhooks every 2 minutes
