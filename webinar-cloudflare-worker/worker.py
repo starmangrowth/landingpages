@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.api_router import router as api_router
+from workers import WorkerEntrypoint  # Official import
+import asgi  # ASGI adapter (auto-available in runtime)
 
 load_dotenv()
 
@@ -10,7 +12,7 @@ app = FastAPI(title="GC Website Backend", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Restrict in production
+    allow_origins=["*"],  # Restrict to your domains in prod
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -26,18 +28,19 @@ async def health_check():
         "multi_tenant": {"client_config_source": "mongodb.clients"},
     }
 
-async def scheduled(event):
-    from app.db.init_db import initialize_database
-    from app.core.webinar_sync import sync_webinars
-    from app.core.retry_failed_webhooks import retry_failed_webhooks
+class MyWorker(WorkerEntrypoint):
+    async def fetch(self, request):
+        return await asgi.fetch(app, request, self.env)
 
-    print("Starting scheduled jobs...")
-    await initialize_database()
-    await sync_webinars()
-    await retry_failed_webhooks()
-    print("Scheduled jobs completed.")
+    async def scheduled(self, event):
+        from app.db.init_db import initialize_database
+        from app.core.webinar_sync import sync_webinars
+        from app.core.retry_failed_webhooks import retry_failed_webhooks
 
-# Cloudflare export (ASGI handler)
-export = app
-export.scheduled = scheduled
+        print("Starting scheduled jobs...")
+        await initialize_database()
+        await sync_webinars()
+        await retry_failed_webhooks()
+        print("Scheduled jobs completed.")
 
+export = MyWorker()
