@@ -1,10 +1,10 @@
 import os
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.api_router import router as api_router
 from workers import WorkerEntrypoint  # Official import
-import asgi  # ASGI adapter (auto-available in runtime)
+import asgi  # ASGI adapter
 
 load_dotenv()
 
@@ -12,7 +12,7 @@ app = FastAPI(title="GC Website Backend", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Restrict to your domains in prod
+    allow_origins=["*"],  # Restrict in prod
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
