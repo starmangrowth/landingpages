@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.api_router import router as api_router
-from workers import WorkerEntrypoint  # Official
+from workers import WorkerEntrypoint  # Official import
 import asgi  # ASGI adapter
 
 load_dotenv()
